@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd        http://camel.apache.org/schema/spring       http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+    <bean id="activemq-internal" class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.ActiveMQSslConnectionFactory">
+                <property name="brokerURL" value="failover://ssl://broker-amq-tcp-ssl-mes.viaapps.us.lmco.com:443"/>
+                <property name="userName" value="redhat"/>
+                <property name="password" value="redhat"/>
+                <property name="trustStore" value="certs/client.ts"/>
+                <property name="trustStorePassword" value="redhat"/>
+            </bean>
+        </property>
+    </bean>
+
+<!--    <bean id="activemq-ibase-t" class="org.apache.activemq.camel.component.ActiveMQComponent">
+        <property name="connectionFactory">
+            <bean class="org.apache.activemq.ActiveMQConnectionFactory">
+                 <property name="brokerURL" value="${activemq.broker.url}"/>
+                <property name="userName" value="${activemq.broker.username}"/>
+                <property name="password" value="${activemq.broker.password}"/>
+            </bean>
+        </property>
+    </bean>-->
+
+    <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+
+        <route id="log-route" streamCache="true">
+            <from id="route-from-incoming-message" uri="activemq-internal:foo"/>
+            <to uri="log:message" />
+            <to uri="activemq-internal:bar" />
+        </route>
+
+<!--        <route id="parts-input-route" streamCache="true">
+            <from id="parts-input" uri="activemq-internal:parts.input"/>
+            <log id="log-parts-input" message="Message: ${body}"/>
+            <to id="ibase-t-parts-input" uri="activemq-ibase-t:parts.input-it" />
+        </route>
+        <route id="parts-ack-route" streamCache="true">
+            <from id="parts-ack" uri="activemq-ibase-t:parts.ack-it"/>
+            <log id="log-parts-ack" message="Message: ${body}"/>
+            <to id="ibase-t-parts-ack" uri="activemq-internal:parts.ack" />
+        </route>
+        <route id="bom-input-route" streamCache="true">
+            <from id="bom-input" uri="activemq-internal:bom.input"/>
+            <log id="log-bom-input" message="Message: ${body}"/>
+            <to id="ibase-t-bom-input" uri="activemq-ibase-t:bom.input-it" />
+        </route>
+        <route id="bom-ack-route" streamCache="true">
+            <from id="bom-ack" uri="activemq-internal:bom.ack"/>
+            <log id="log-bom-ack" message="Message: ${body}"/>
+            <to id="ibase-t-bom-ack" uri="activemq-ibase-t:bom.ack-it" />
+        </route>-->
+    </camelContext>
+</beans>
