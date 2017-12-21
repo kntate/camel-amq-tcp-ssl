@@ -46,12 +46,19 @@ e) Use the  amq62-persistent-ssl.yml file in certs directory to create an AMQ se
 $ oc process -f amq62-persistent-ssl.yml --param APPLICATION_NAME=broker --param MQ_PROTOCOL=openwire --param MQ_USERNAME=redhat --param MQ_PASSWORD=redhat --param AMQ_SECRET=amq-secret --param AMQ_TRUSTSTORE=client.ts --param AMQ_TRUSTSTORE_PASSWORD=password --param AMQ_KEYSTORE=broker.ks --param AMQ_KEYSTORE_PASSWORD=password --param AMQ_MESH_DISCOVERY_TYPE=kube --param IMAGE_STREAM_NAMESPACE=openshift --param AMQ_STORAGE_USAGE_LIMIT="100 gb" | oc create -f -
 ```
 
+Note: If you ever want to delete your AMQ broker, you can use the following command
+
+```
+oc delete svc broker-amq-amqp;oc delete svc broker-amq-amqp-ssl;oc delete svc broker-amq-mqtt;oc delete svc broker-amq-mqtt-ssl;oc delete svc broker-amq-stomp;oc delete svc broker-amq-stomp-ssl;oc delete svc broker-amq-tcp;oc delete svc broker-amq-tcp-ssl;oc delete dc broker-amq;oc delete route broker-amq-tcp-ssl
+```
+
 #### Openshift Setup
 
 Create a new binary build inside OpenShift
 
 ```
-$ oc new-build --binary=true --name=mes-integration-app fis-java-openshift
+$ oc new-build --binary=true --name=integration-app fis-java-openshift
+$ oc new-app mes/integration-app --name=integration-app --allow-missing-imagestream-tags=true
 ```
 
 #### Openshift Deploy
@@ -60,7 +67,7 @@ To deploy a new version of the application, run a maven build then start an Open
 
 ```
 $ mvn --settings configuration/settings.xml install
-$ oc start-build mes-integration-app --from-file=./target/mes-integration-app-1.0.jar --follow
+$ oc start-build integration-app --from-file=./target/integration-app-1.0.jar --follow
 ```
 
 If you ever want to delete the application you can run the following.
@@ -69,6 +76,6 @@ If you ever want to delete the application you can run the following.
 $ oc delete svc,dc,bc,is integration-app
 ```
 
-    
+
 
 
