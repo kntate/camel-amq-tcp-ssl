@@ -10,7 +10,7 @@ The example can be built with
 
     mvn --settings configuration/settings.xml clean install
 
-After it you can exec the application using (Note: OpenShift AMQ must be running)
+After it you can exec the application using (Note: OpenShift AMQ must be running, broker properties can be set in application.properties file)
 
     mvn --settings configuration/settings.xml spring-boot:run
 
@@ -51,7 +51,7 @@ $ oc process -f amq62-persistent-ssl.yml --param APPLICATION_NAME=broker --param
 Create a new binary build inside OpenShift
 
 ```
-$ oc new-build --binary=true --name=integration-app fis-java-openshift
+$ oc new-build --binary=true --name=mes-integration-app fis-java-openshift
 ```
 
 #### Openshift Deploy
@@ -60,7 +60,7 @@ To deploy a new version of the application, run a maven build then start an Open
 
 ```
 $ mvn --settings configuration/settings.xml install
-$ oc start-build integration-app --from-file=./target/integration-app-1.0.jar --follow
+$ oc start-build mes-integration-app --from-file=./target/mes-integration-app-1.0.jar --follow
 ```
 
 If you ever want to delete the application you can run the following.
