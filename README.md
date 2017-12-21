@@ -41,11 +41,12 @@ $ oc secrets add sa/amq-service-account secret/amq-secret
 ```
 
 e) Use the  amq62-persistent-ssl.yml file in certs directory to create an AMQ service
+
 ```
-$ oc process -f amq62-persistent-ssl.yml --param APPLICATION_NAME=broker --param MQ_PROTOCOL=openwire --param MQ_USERNAME=redhat --param MQ_PASSWORD=redhat --param AMQ_SECRET=amq-secret --param AMQ_TRUSTSTORE=client.ts --param AMQ_TRUSTSTORE_PASSWORD=password --param AMQ_KEYSTORE=broker.ks --param AMQ_KEYSTORE_PASSWORD=password --param AMQ_MESH_DISCOVERY_TYPE=kube --param IMAGE_STREAM_NAMESPACE=openshift --param AMQ_STORAGE_USAGE_LIMIT="100 gb" | oc create -f -e) Use the  amq62-persistent-ssl to create an AMQ service
+$ oc process -f amq62-persistent-ssl.yml --param APPLICATION_NAME=broker --param MQ_PROTOCOL=openwire --param MQ_USERNAME=redhat --param MQ_PASSWORD=redhat --param AMQ_SECRET=amq-secret --param AMQ_TRUSTSTORE=client.ts --param AMQ_TRUSTSTORE_PASSWORD=password --param AMQ_KEYSTORE=broker.ks --param AMQ_KEYSTORE_PASSWORD=password --param AMQ_MESH_DISCOVERY_TYPE=kube --param IMAGE_STREAM_NAMESPACE=openshift --param AMQ_STORAGE_USAGE_LIMIT="100 gb" | oc create -f -
 ```
 
-#### Openshift Setup                                                                                                                                                                                                                                                                                                                                                                                                                                                                        oc process -f amq62-persistent-ssl --param APPLICATION_NAME=broker --param MQ_PROTOCOL=openwire --param MQ_USERNAME=redhat --param MQ_PASSWORD=redhat --param AMQ_SECRET=amq-secret --param AMQ_TRUSTSTORE=client.ts --param AMQ_TRUSTSTORE_PASSWORD=password --param AMQ_KEYSTORE=broker.ks --param AMQ_KEYSTORE_PASSWORD=password --param AMQ_MESH_DISCOVERY_TYPE=kube --param IMAGE_STREAM_NAMESPACE=openshift --param AMQ_STORAGE_USAGE_LIMIT="100 gb" | oc create -f -
+#### Openshift Setup
 
 Create a new binary build inside OpenShift
 
